@@ -1,1 +1,6 @@
+users[email] = {
+    'password': hashed_password,
+    'firstName': first_name,
+    'lastName': last_name
+}
 
