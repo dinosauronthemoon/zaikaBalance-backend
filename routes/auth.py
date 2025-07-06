@@ -7,16 +7,22 @@ import os
 auth_bp = Blueprint('auth', __name__)
 USERS_FILE = 'data/users.json'
 
-def load_users():
+def ensure_user_file():
+    # ✅ Ensure the directory exists
+    os.makedirs(os.path.dirname(USERS_FILE), exist_ok=True)
+    
+    # ✅ If file doesn't exist, create an empty one
     if not os.path.exists(USERS_FILE):
-        return {}
+        with open(USERS_FILE, 'w') as f:
+            json.dump({}, f)
+
+def load_users():
+    ensure_user_file()
     with open(USERS_FILE, 'r') as f:
         return json.load(f)
 
 def save_users(users):
-    # ✅ Ensure the `data/` directory exists
-    os.makedirs(os.path.dirname(USERS_FILE), exist_ok=True)
-
+    ensure_user_file()
     with open(USERS_FILE, 'w') as f:
         json.dump(users, f, indent=4)
 
@@ -53,6 +59,8 @@ def login():
     token = encode_auth_token(email)
     return jsonify({'token': token}), 200
 
+
+   
         
     
 
