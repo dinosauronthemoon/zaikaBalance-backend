@@ -14,6 +14,9 @@ def load_users():
         return json.load(f)
 
 def save_users(users):
+    # ✅ Ensure the `data/` directory exists
+    os.makedirs(os.path.dirname(USERS_FILE), exist_ok=True)
+
     with open(USERS_FILE, 'w') as f:
         json.dump(users, f, indent=4)
 
@@ -49,3 +52,8 @@ def login():
 
     token = encode_auth_token(email)
     return jsonify({'token': token}), 200
+
+        
+    
+
+  
