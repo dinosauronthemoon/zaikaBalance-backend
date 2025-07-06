@@ -8,10 +8,7 @@ auth_bp = Blueprint('auth', __name__)
 USERS_FILE = 'data/users.json'
 
 def ensure_user_file():
-    # ✅ Ensure the directory exists
     os.makedirs(os.path.dirname(USERS_FILE), exist_ok=True)
-    
-    # ✅ If file doesn't exist, create an empty one
     if not os.path.exists(USERS_FILE):
         with open(USERS_FILE, 'w') as f:
             json.dump({}, f)
@@ -31,6 +28,9 @@ def signup():
     data = request.json
     email = data.get('email')
     password = data.get('password')
+    first_name = data.get('firstName', '')
+    last_name = data.get('lastName', '')
+
     if not email or not password:
         return jsonify({'message': 'Email and password required'}), 400
 
@@ -39,7 +39,12 @@ def signup():
         return jsonify({'message': 'User already exists'}), 409
 
     hashed_password = generate_password_hash(password)
-    users[email] = {'password': hashed_password}
+    users[email] = {
+        'password': hashed_password,
+        'firstName': first_name,
+        'lastName': last_name
+    }
+
     save_users(users)
     return jsonify({'message': 'User created successfully'}), 201
 
@@ -58,6 +63,10 @@ def login():
 
     token = encode_auth_token(email)
     return jsonify({'token': token}), 200
+
+
+
+    
 
 
    
