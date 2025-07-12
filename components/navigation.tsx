@@ -29,7 +29,6 @@ import {
   LogOut,
   LogIn,
   UserPlus,
-  Sparkles,
 } from "lucide-react"
 
 const navigation = [
@@ -64,29 +63,26 @@ export function Navigation() {
   }
 
   return (
-    <nav className="vintage-nav sticky top-0 z-50">
+    <nav className="bg-background border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex items-center">
+          <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="flex items-center space-x-2 group">
-                <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Sparkles className="h-6 w-6 text-white" />
-                </div>
-                <span className="text-2xl font-bold gradient-text">Zaika Balance</span>
+              <Link href="/" className="text-xl font-bold text-primary">
+                Zaika Balance
               </Link>
             </div>
-            <div className="hidden md:ml-8 md:flex md:space-x-1">
+            <div className="hidden md:ml-6 md:flex md:space-x-8">
               {navigation.map((item) => {
                 const Icon = item.icon
                 return (
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
+                    className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
                       pathname === item.href
-                        ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg"
-                        : "text-gray-700 hover:bg-white/50 hover:text-purple-600"
+                        ? "border-primary text-primary"
+                        : "border-transparent text-muted-foreground hover:text-foreground hover:border-gray-300"
                     }`}
                   >
                     <Icon className="h-4 w-4 mr-2" />
@@ -103,22 +99,13 @@ export function Navigation() {
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="relative h-10 w-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 hover:from-purple-500 hover:to-pink-500 transition-all duration-300"
-                  >
-                    <Avatar className="h-10 w-10">
-                      <AvatarFallback className="bg-transparent text-white font-bold">
-                        {getInitials(user.name)}
-                      </AvatarFallback>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-56 bg-white/95 backdrop-blur-md border-white/20"
-                  align="end"
-                  forceMount
-                >
+                <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">{user.name}</p>
@@ -140,18 +127,14 @@ export function Navigation() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <div className="flex items-center space-x-3">
-                <Button
-                  variant="ghost"
-                  className="text-gray-700 hover:bg-white/50 hover:text-purple-600 rounded-xl transition-all duration-300"
-                  asChild
-                >
+              <div className="flex items-center space-x-2">
+                <Button variant="ghost" asChild>
                   <Link href="/auth/login">
                     <LogIn className="mr-2 h-4 w-4" />
                     Sign In
                   </Link>
                 </Button>
-                <Button className="vintage-button" asChild>
+                <Button asChild>
                   <Link href="/auth/signup">
                     <UserPlus className="mr-2 h-4 w-4" />
                     Sign Up
@@ -167,7 +150,7 @@ export function Navigation() {
               variant="ghost"
               size="sm"
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-xl text-gray-700 hover:bg-white/50 transition-all duration-300"
+              className="inline-flex items-center justify-center p-2"
             >
               {isOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
             </Button>
@@ -177,18 +160,18 @@ export function Navigation() {
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-white/20">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t">
             {navigation.map((item) => {
               const Icon = item.icon
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`flex items-center px-3 py-3 rounded-xl text-base font-medium transition-all duration-300 ${
+                  className={`flex items-center px-3 py-2 rounded-md text-base font-medium ${
                     pathname === item.href
-                      ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white"
-                      : "text-gray-700 hover:bg-white/50 hover:text-purple-600"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
                   }`}
                   onClick={() => setIsOpen(false)}
                 >
@@ -199,21 +182,19 @@ export function Navigation() {
             })}
 
             {user ? (
-              <div className="border-t border-white/20 pt-4 mt-4">
+              <div className="border-t pt-4 mt-4">
                 <div className="flex items-center px-3 py-2">
-                  <Avatar className="h-10 w-10 mr-3 bg-gradient-to-br from-purple-400 to-pink-400">
-                    <AvatarFallback className="bg-transparent text-white font-bold">
-                      {getInitials(user.name)}
-                    </AvatarFallback>
+                  <Avatar className="h-8 w-8 mr-3">
+                    <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="text-base font-medium text-gray-800">{user.name}</div>
-                    <div className="text-sm text-gray-600">{user.email}</div>
+                    <div className="text-base font-medium">{user.name}</div>
+                    <div className="text-sm text-muted-foreground">{user.email}</div>
                   </div>
                 </div>
                 <Link
                   href="/profile"
-                  className="flex items-center px-3 py-3 rounded-xl text-base font-medium text-gray-700 hover:bg-white/50 hover:text-purple-600 transition-all duration-300"
+                  className="flex items-center px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-foreground hover:bg-muted"
                   onClick={() => setIsOpen(false)}
                 >
                   <User className="h-5 w-5 mr-3" />
@@ -224,17 +205,17 @@ export function Navigation() {
                     handleLogout()
                     setIsOpen(false)
                   }}
-                  className="flex items-center w-full px-3 py-3 rounded-xl text-base font-medium text-gray-700 hover:bg-white/50 hover:text-purple-600 transition-all duration-300"
+                  className="flex items-center w-full px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-foreground hover:bg-muted"
                 >
                   <LogOut className="h-5 w-5 mr-3" />
                   Log out
                 </button>
               </div>
             ) : (
-              <div className="border-t border-white/20 pt-4 mt-4 space-y-1">
+              <div className="border-t pt-4 mt-4 space-y-1">
                 <Link
                   href="/auth/login"
-                  className="flex items-center px-3 py-3 rounded-xl text-base font-medium text-gray-700 hover:bg-white/50 hover:text-purple-600 transition-all duration-300"
+                  className="flex items-center px-3 py-2 rounded-md text-base font-medium text-muted-foreground hover:text-foreground hover:bg-muted"
                   onClick={() => setIsOpen(false)}
                 >
                   <LogIn className="h-5 w-5 mr-3" />
@@ -242,7 +223,7 @@ export function Navigation() {
                 </Link>
                 <Link
                   href="/auth/signup"
-                  className="flex items-center px-3 py-3 rounded-xl text-base font-medium bg-gradient-to-r from-purple-500 to-pink-500 text-white transition-all duration-300"
+                  className="flex items-center px-3 py-2 rounded-md text-base font-medium bg-primary text-primary-foreground"
                   onClick={() => setIsOpen(false)}
                 >
                   <UserPlus className="h-5 w-5 mr-3" />
